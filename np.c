@@ -5,6 +5,7 @@
 /* WRITTEN BY R. M. SUPNIK */
 
 #include <stdio.h>
+#include <string.h>
 #include <ctype.h>
 #include "funcs.h"
 #include "vars.h"
@@ -15,9 +16,11 @@ extern int system P((const char *));
 
 static logical lex_ P((char *, integer *, integer *, logical));
 
-void rdline_(buffer, who)
+// No longer reads from stdin, just processes input and copies to buffer
+void rdline_(buffer, who, input)
 char *buffer;
 integer who;
+char *input;
 {
     /* Local variables */
     char *z, *zlast;
@@ -30,11 +33,9 @@ L5:
     }
 /* 						!SEE WHO TO PROMPT FOR. */
 L10:
-    printf(">");
-/* 						!PROMPT FOR GAME. */
+    // We disabled the game prompt since we're programatically retrieving the output.
 L90:
-    (void) fflush(stdout);
-    if (fgets(buffer, 78, stdin) == NULL)
+    if (strncpy(buffer, input, 78) == NULL)
 	exit_();
     more_input();
 

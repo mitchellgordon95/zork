@@ -12,7 +12,7 @@
 
 static integer cxappl_ P((integer));
 
-void savegm_()
+void savegm_(char * save_file)
 {
     /* Local variables */
     integer i;
@@ -22,10 +22,10 @@ void savegm_()
 /* 						!DISABLE GAME. */
 /* Note: save file format is different for PDP vs. non-PDP versions */
 
-    if ((e = fopen("dsave.dat", BINWRITE)) == NULL)
+    if ((e = fopen(save_file, BINWRITE)) == NULL)
 	goto L100;
 
-    gttime_(&i); 
+    gttime_(&i);
 /* 						!GET TIME. */
 
 #define do_uio(i, zbuf, cbytes) \
@@ -88,22 +88,18 @@ void savegm_()
 
 #undef do_uio
 
-    if (fclose(e) == EOF)
-	goto L100;
-
-    rspeak_(597);
-    return;
-
+    // 2017 - don't say anything for saves since they're invoked programatically
+    // TODO - return some error codes for unsuccessful saves
+    fclose(e);
 L100:
-    rspeak_(598);
-/* 						!CANT DO IT. */
+    return;
 } /* savegm_ */
 
 /* RESTORE- RESTORE GAME STATE */
 
 /* DECLARATIONS */
 
-void rstrgm_()
+void rstrgm_(char * save_file)
 {
     /* Local variables */
     integer i, j, k;
@@ -113,7 +109,7 @@ void rstrgm_()
 /* 						!DISABLE GAME. */
 /* Note: save file format is different for PDP vs. non-PDP versions */
 
-    if ((e = fopen("dsave.dat", BINREAD)) == NULL)
+    if ((e = fopen(save_file, BINREAD)) == NULL)
 	goto L100;
 
 #define do_uio(i, zbuf, cbytes) \
@@ -178,19 +174,18 @@ void rstrgm_()
     do_uio(25, &cevent_1.cflag[0], sizeof(logical));
     do_uio(25, &cevent_1.ctick[0], sizeof(integer));
 
+    // TODO - return some error codes for unsuccessful loads
     (void)fclose(e);
-
-    rspeak_(599);
+    // 2017 - don't say anything for loads since they're invoked programatically
     return;
 
 L100:
-    rspeak_(598);
-/* 						!CANT DO IT. */
+    // 2017 - don't say anything for loads since they're invoked programatically
     return;
 
 L200:
-    rspeak_(600);
 /* 						!OBSOLETE VERSION */
+    // 2017 - don't say anything for loads since they're invoked programatically
     (void)fclose(e);
 } /* rstrgm_ */
 

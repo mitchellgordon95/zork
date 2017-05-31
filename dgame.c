@@ -15,7 +15,7 @@ extern int strcmp P((const char *, const char *));
 static logical xvehic_ P((integer));
 static void xendmv_ P((logical));
 
-void game_()
+void game_(char *save_file, char* input)
 {
     /* Local variables */
     logical f;
@@ -23,20 +23,17 @@ void game_()
 
 /* START UP, DESCRIBE CURRENT LOCATION. */
 
-    rspeak_(1);
-/* 						!WELCOME ABOARD. */
-    f = rmdesc_(3);
 /* 						!START GAME. */
+    // 2017 - Load the game file specified
+    rstrgm_(save_file);
 
 /* NOW LOOP, READING AND EXECUTING COMMANDS. */
-
-L100:
     play_1.winner = aindex_1.player;
 /* 						!PLAYER MOVING. */
     play_1.telflg = FALSE_;
 /* 						!ASSUME NOTHING TOLD. */
     if (prsvec_1.prscon <= 1) {
-	rdline_(input_1.inbuf, 1);
+      rdline_(input_1.inbuf, 1, input);
     }
 
 #ifdef ALLOW_GDT
@@ -97,7 +94,7 @@ L900:
 /* IF INPUT IS NOT 'ECHO' OR A DIRECTION, JUST ECHO. */
 
 L1000:
-    rdline_(input_1.inbuf, 0);
+    rdline_(input_1.inbuf, 0, input);
     ++state_1.moves;
 /* 						!CHARGE FOR MOVES. */
     if (strcmp(input_1.inbuf, "ECHO") != 0)
@@ -198,6 +195,10 @@ L2900:
     valuac_(oindex_1.valua);
 /* 						!ALL OR VALUABLES. */
     goto L350;
+
+ L100:
+    // 2017 - save the game to the file specified
+    savegm_(save_file);
 
 } /* game_ */
 

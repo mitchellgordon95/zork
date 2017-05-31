@@ -1084,29 +1084,13 @@ L74000:
 /* V149--	SAVE */
 
 L77000:
-    if ((rooms_1.rflag[rindex_1.tstrs - 1] & RSEEN) == 0) {
-	goto L77100;
-    }
-    rspeak_(828);
-/* 						!NO SAVES IN ENDGAME. */
-    return ret_val;
-
-L77100:
-    savegm_();
+    // 2017 - we only save in game_
     return ret_val;
 
 /* V150--	RESTORE */
 
 L78000:
-    if ((rooms_1.rflag[rindex_1.tstrs - 1] & RSEEN) == 0) {
-	goto L78100;
-    }
-    rspeak_(829);
-/* 						!NO RESTORES IN ENDGAME. */
-    return ret_val;
-
-L78100:
-    rstrgm_();
+    // 2017 - we only restore in game_
     return ret_val;
 /* VAPPLI, PAGE 11 */
 
