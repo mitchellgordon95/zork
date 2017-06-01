@@ -40,7 +40,7 @@ L90:
     more_input();
 
     if (buffer[0] == '!') {
-	system(buffer + 1);
+      // 2017 - definitely don't let anyone execute shell commands lol
 	goto L5;
     }
 
