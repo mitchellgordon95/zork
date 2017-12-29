@@ -97,8 +97,9 @@ L1000:
     rdline_(input_1.inbuf, 0, input);
     ++state_1.moves;
 /* 						!CHARGE FOR MOVES. */
-    if (strcmp(input_1.inbuf, "ECHO") != 0)
-	goto L1300;
+    // 2017 - don't do the echo thing; not sure it will work across command line invocations
+    //if (strcmp(input_1.inbuf, "ECHO") != 0)
+    //goto L1300;
 
     rspeak_(571);
 /* 						!KILL THE ECHO. */
